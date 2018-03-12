@@ -3,7 +3,7 @@ class treenode():
         self.val = val
         self.left, self.right = None, None
 
-
+   
 class traversal():
     def __init__(self):
         self.path = []
