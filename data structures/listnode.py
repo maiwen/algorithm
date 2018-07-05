@@ -1,6 +1,12 @@
-class linkedlistnode():
+class listnode():
     def __init__(self, val):
         self.val = val
+        self.next = None
+
+class dlistnode():
+    def __init__(self, val):
+        self.val = val
+        self.prev = None
         self.next = None
 
 
@@ -15,9 +21,9 @@ def reverse(head):
     return prev
 
 
-l1 = linkedlistnode(10)
-l2 = linkedlistnode(20)
-l3 = linkedlistnode(30)
+l1 = listnode(10)
+l2 = listnode(20)
+l3 = listnode(30)
 l1.next = l2
 l2.next = l3
 

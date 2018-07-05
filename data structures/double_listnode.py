@@ -1,4 +1,4 @@
-class dlistnode():
+class double_listnode():
     def __init__(self, val):
         self.val = val
         self.prev = None
@@ -12,9 +12,9 @@ def reverse(head):
     return head
 
 
-l1 = dlistnode(10)
-l2 = dlistnode(20)
-l3 = dlistnode(30)
+l1 = double_listnode(10)
+l2 = double_listnode(20)
+l3 = double_listnode(30)
 l1.prev = None
 l1.next = l2
 l2.prev = l1
