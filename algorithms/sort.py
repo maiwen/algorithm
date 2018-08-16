@@ -88,6 +88,24 @@ def partition(a_list, first, last):
     a_list[first], a_list[right_mark] = a_list[right_mark], a_list[first]
     return right_mark
 
+
+def quickSort(array, left, right):
+    if left >= right:
+        return
+    low = left
+    high = right
+    key = array[low]
+    while left < right:
+        while left < right and array[right] > key:
+            right -= 1
+        array[left] = array[right]
+        while left < right and array[left] <= key:
+            left += 1
+        array[right] = array[left]
+    array[right] = key
+    quickSort(array, low, right - 1)
+    quickSort(array, right + 1, high)
+
 # 堆排序
 def fixDown(a, k, n):  # 自顶向下堆化，从k开始堆化
     N = n - 1
@@ -115,7 +133,7 @@ def heapSort(l):
 
 
 a_list = [54, 26, 93, 17, 77, 31, 44, 55, 20, 16]
-heapSort(a_list)
+quickSort(a_list, 0, len(a_list)-1)
 print(a_list)
                 
             
