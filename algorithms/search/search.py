@@ -30,7 +30,7 @@ def binary_search(a_list,item):
 # print(binary_search(list,88))
 
 #除法取余法实现的哈希函数
-def myHash(data,hashLength,):
+def myHash(data,hashLength):
     return data % hashLength
 #哈希表检索数据
 def searchHash(hash,hashLength,data):

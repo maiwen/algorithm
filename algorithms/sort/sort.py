@@ -26,7 +26,23 @@ def insertion_sort(a_list):
             a_list[position] = a_list[position-1]
             position = position - 1
         a_list[position] = current_value
-        
+
+def shell_sort(a_list):
+    n = len(a_list)
+    h = 1
+    while h < n/3:
+        h = h*3 + 1
+    while h >= 1:
+        for i in range(h,n):
+            j = i
+            while j >= h and a_list[j] < a_list[j-h]:
+                a_list[j], a_list[j-h] = a_list[j-h], a_list[j]
+                j -= h
+        h //= 3
+
+
+
+
 def merge_sort(a_list):
     print('split.')
     if len(a_list)>1:
@@ -56,6 +72,7 @@ def merge_sort(a_list):
             j += 1
             k += 1  
     print('merge')
+
 
 #快速排序
 # 首先，它每次都是选择第一个元素都为主元，这个回合就是要确定主元的位置；然后，有两个指针，一个leftmark指向主元的后面一个位置，
@@ -107,7 +124,7 @@ def quickSort(array, left, right):
     quickSort(array, right + 1, high)
 
 # 堆排序
-def fixDown(a, k, n):  # 自顶向下堆化，从k开始堆化
+def fixDown(a, k, n):  # 自顶向下堆化，从k开始堆化，即每进行完一次头部元素变为最大（或最小）
     N = n - 1
     while 2 * k <= N:
         j = 2 * k
@@ -122,18 +139,18 @@ def fixDown(a, k, n):  # 自顶向下堆化，从k开始堆化
 def heapSort(l):
     l.insert(0,-1)           # 占位
     n = len(l) - 1
-    for i in range(n // 2, 0, -1):
+    for i in range(n // 2, 0, -1):  # 构造初始堆
         fixDown(l, i, len(l))
     while n > 1:
-        l[1], l[n] = l[n], l[1]
-        fixDown(l, 1, n)
-        n -= 1
+        l[1], l[n] = l[n], l[1]  # 交换首尾元素
+        fixDown(l, 1, n)    # 堆化
+        n -= 1       # 此时n为已排序区域，移除
     l.pop(0)          # 移除占位
     return l
 
 
 a_list = [54, 26, 93, 17, 77, 31, 44, 55, 20, 16]
-quickSort(a_list, 0, len(a_list)-1)
+shell_sort(a_list)
 print(a_list)
                 
             
