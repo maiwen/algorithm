@@ -105,24 +105,6 @@ def partition(a_list, first, last):
     a_list[first], a_list[right_mark] = a_list[right_mark], a_list[first]
     return right_mark
 
-
-def quickSort(array, left, right):
-    if left >= right:
-        return
-    low = left
-    high = right
-    key = array[low]
-    while left < right:
-        while left < right and array[right] > key:
-            right -= 1
-        array[left] = array[right]
-        while left < right and array[left] <= key:
-            left += 1
-        array[right] = array[left]
-    array[right] = key
-    quickSort(array, low, right - 1)
-    quickSort(array, right + 1, high)
-
 # 堆排序
 def fixDown(a, k, n):  # 自顶向下堆化，从k开始堆化，即每进行完一次头部元素变为最大（或最小）
     N = n - 1
