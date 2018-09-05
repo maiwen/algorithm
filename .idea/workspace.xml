@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07ba5ccd-8f60-4528-83ff-9cec7b070590" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/algorithms/search/readme.md" afterPath="$PROJECT_DIR$/algorithms/search/readme.md" />
       <change beforePath="$PROJECT_DIR$/algorithms/sort/readme.md" afterPath="$PROJECT_DIR$/algorithms/sort/readme.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +26,8 @@
       <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/algorithms/sort/readme.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2781">
-              <caret line="103" column="40" lean-forward="true" selection-start-line="103" selection-start-column="40" selection-end-line="103" selection-end-column="40" />
+            <state relative-caret-position="-1424">
+              <caret line="41" column="25" lean-forward="true" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -458,8 +457,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithms/sort/readme.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2781">
-          <caret line="103" column="40" lean-forward="true" selection-start-line="103" selection-start-column="40" selection-end-line="103" selection-end-column="40" />
+        <state relative-caret-position="-1424">
+          <caret line="41" column="25" lean-forward="true" selection-start-line="41" selection-start-column="25" selection-end-line="41" selection-end-column="25" />
           <folding />
         </state>
       </provider>
