@@ -178,3 +178,4 @@ def parse_graph(s):
 G = parse_graph('bc/die/d/ah/f/g/eh/i/h')
 print(list(map(list, scc(G))))
 #[['a', 'c', 'b', 'd'], ['e', 'g', 'f'], ['i', 'h']]
+
