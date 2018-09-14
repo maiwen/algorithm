@@ -96,9 +96,10 @@ print ([D[v] for v in [s, t, x, y, z]]) # [0, 8, 9, 5, 7]
 print (s not in P) # True
 print ([P[v] for v in [t, x, y, z]] == [y, t, s, y]) # True
 
+from copy import deepcopy
 #Johnson’s Algorithm
 def johnson(G):                                 # All pairs shortest paths
-    from copy import deepcopy
+
     G = deepcopy(G)                             # Don't want to break original
     s = object()                                # Guaranteed unique node
     G[s] = {v:0 for v in G}                     # Edges from s have zero wgt
@@ -128,3 +129,116 @@ print ([D[b][v] for v in [a, b, c, d, e]]) # [4, 0, 5, 3, 7]
 print ([D[c][v] for v in [a, b, c, d, e]]) # [-1, -5, 0, -2, 2]
 print ([D[d][v] for v in [a, b, c, d, e]]) # [5, 1, 6, 0, 8]
 print ([D[e][v] for v in [a, b, c, d, e]]) # [1, -3, 2, -4, 0]
+
+#递归版本的Floyd-Warshall算法
+from functools import wraps
+
+def memo(func):
+    cache = {}                                  # Stored subproblem solutions
+    @wraps(func)                                # Make wrap look like func
+    def wrap(*args):                            # The memoized wrapper
+        if args not in cache:                   # Not already computed?
+            cache[args] = func(*args)           # Compute & cache the solution
+        return cache[args]                      # Return the cached solution
+    return wrap                                 # Return the wrapper
+
+def rec_floyd_warshall(G):                                # All shortest paths
+    @memo                                                 # Store subsolutions
+    def d(u,v,k):                                         # u to v via 1..k
+        if k==0: return G[u][v]                           # Assumes v in G[u]
+        return min(d(u,v,k-1), d(u,k,k-1) + d(k,v,k-1))   # Use k or not?
+    return {(u,v): d(u,v,len(G)) for u in G for v in G}   # D[u,v] = d(u,v,n)
+
+#测试代码
+a, b, c, d, e = range(1,6) # One-based
+W = {
+    a: {c:1, d:7},
+    b: {a:4},
+    c: {b:-5, e:2},
+    d: {c:6},
+    e: {a:3, b:8, d:-4}
+    }
+for u in W:
+    for v in W:
+        if u == v: W[u][v] = 0
+        if v not in W[u]: W[u][v] = inf
+D = rec_floyd_warshall(W)
+print ([D[a,v] for v in [a, b, c, d, e]]) # [0, -4, 1, -1, 3]
+print ([D[b,v] for v in [a, b, c, d, e]]) # [4, 0, 5, 3, 7]
+print ([D[c,v] for v in [a, b, c, d, e]]) # [-1, -5, 0, -2, 2]
+print ([D[d,v] for v in [a, b, c, d, e]]) # [5, 1, 6, 0, 8]
+print ([D[e,v] for v in [a, b, c, d, e]]) # [1, -3, 2, -4, 0]
+
+#空间优化后的Floyd-Warshall算法
+def floyd_warshall1(G):
+    D = deepcopy(G)                             # No intermediates yet
+    for k in G:                                 # Look for shortcuts with k
+        for u in G:
+            for v in G:
+                D[u][v] = min(D[u][v], D[u][k] + D[k][v])
+    return D
+
+#测试代码
+a, b, c, d, e = range(1,6) # One-based
+W = {
+    a: {c:1, d:7},
+    b: {a:4},
+    c: {b:-5, e:2},
+    d: {c:6},
+    e: {a:3, b:8, d:-4}
+    }
+for u in W:
+    for v in W:
+        if u == v: W[u][v] = 0
+        if v not in W[u]: W[u][v] = inf
+D = floyd_warshall1(W)
+print ([D[a][v] for v in [a, b, c, d, e]]) # [0, -4, 1, -1, 3]
+print ([D[b][v] for v in [a, b, c, d, e]]) # [4, 0, 5, 3, 7]
+print ([D[c][v] for v in [a, b, c, d, e]]) # [-1, -5, 0, -2, 2]
+print ([D[d][v] for v in [a, b, c, d, e]]) # [5, 1, 6, 0, 8]
+print ([D[e][v] for v in [a, b, c, d, e]]) # [1, -3, 2, -4, 0]
+
+# 当然啦，一般情况下求最短路径问题我们还需要知道最短路径是什么，这个时候我们只需要在进行选择的时候设置一个前驱节点就行了
+
+#最终版本的Floyd-Warshall算法
+def floyd_warshall(G):
+    D, P = deepcopy(G), {}
+    for u in G:
+        for v in G:
+            if u == v or G[u][v] == inf:
+                P[u,v] = None
+            else:
+                P[u,v] = u
+    for k in G:
+        for u in G:
+            for v in G:
+                shortcut = D[u][k] + D[k][v]
+                if shortcut < D[u][v]:
+                    D[u][v] = shortcut
+                    P[u,v] = P[k,v]
+    return D, P
+
+#测试代码
+a, b, c, d, e = range(5)
+W = {
+    a: {c:1, d:7},
+    b: {a:4},
+    c: {b:-5, e:2},
+    d: {c:6},
+    e: {a:3, b:8, d:-4}
+    }
+for u in W:
+    for v in W:
+        if u == v: W[u][v] = 0
+        if v not in W[u]: W[u][v] = inf
+D, P = floyd_warshall(W)
+print ([D[a][v] for v in [a, b, c, d, e]])#[0, -4, 1, -1, 3]
+print ([D[b][v] for v in [a, b, c, d, e]])#[4, 0, 5, 3, 7]
+print ([D[c][v] for v in [a, b, c, d, e]])#[-1, -5, 0, -2, 2]
+print ([D[d][v] for v in [a, b, c, d, e]])#[5, 1, 6, 0, 8]
+print ([D[e][v] for v in [a, b, c, d, e]])#[1, -3, 2, -4, 0]
+print ([P[a,v] for v in [a, b, c, d, e]])#[None, 2, 0, 4, 2]
+print ([P[b,v] for v in [a, b, c, d, e]])#[1, None, 0, 4, 2]
+print ([P[c,v] for v in [a, b, c, d, e]])#[1, 2, None, 4, 2]
+print ([P[d,v] for v in [a, b, c, d, e]])#[1, 2, 3, None, 2]
+print ([P[e,v] for v in [a, b, c, d, e]])#[1, 2, 3, 4, None]
