@@ -83,6 +83,30 @@ class Sort:
         print('merge')
         return nums
 
+    def quickSort(a, l, r):
+
+        if l >= r:
+            return a
+
+        x = a[l]
+        i = l
+        j = r
+
+        while i <= j:
+            while a[i] < x:
+                i += 1
+            while a[j] > x:
+                j -= 1
+            if i <= j:
+                a[i], a[j] = a[j], a[i]
+                i += 1
+                j -= 1
+
+        quickSort(a, l, j)
+        quickSort(a, i, r)
+
+        return a
+
     def quick_sort(self, nums):
         self.quick_sort_helper(nums, 0, len(nums)-1)
         return nums
